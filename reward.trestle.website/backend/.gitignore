@@ -1,0 +1,6 @@
+# Node + SQLite
+node_modules/
+.env
+*.log
+data/
+.DS_Store
