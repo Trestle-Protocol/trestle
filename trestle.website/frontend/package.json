@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "vercel-build": "npm run build" 
   },
   "dependencies": {
     "@tanstack/react-query": "^5.0.0",
