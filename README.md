@@ -1,55 +1,153 @@
-# Trestle Monorepo
+# Trestle Protocol Monorepo
 
-This repository contains the following projects:
-- `trestle.website`: Main website (Next.js).
-- `testnet.trestle.website`: Testnet website (Next.js).
-- `reward.trestle.website`: Reward platform (Next.js + Backend).
-- `mini-app`: Telegram Mini-App (Next.js).
+![Trestle Logo](https://via.placeholder.com/150) <!-- Replace with your logo -->
+
+**A decentralized marketplace for digital assets, freelancer services, and real-world assets (RWA).**
+
+This monorepo contains all projects related to the **Trestle Protocol**, including:
+- The main website (`trestle.website`).
+- Testnet website (`testnet.trestle.website`).
+- Reward platform (`reward.trestle.website`).
+- Telegram Mini-App.
+
+---
+
+## 📁 Directory Structure
+
+```
+trestle/
+├── .gitignore                  # Global Git ignore rules
+├── README.md                   # This file
+├── package.json                # Workspace configuration
+├── turbo.json                  # (Optional) Turborepo configuration
+├── apps/                       # All applications
+│   ├── main/                   # trestle.website (Next.js)
+│   ├── testnet/                # testnet.trestle.website (Next.js)
+│   ├── reward/                 # reward.trestle.website
+│   │   ├── frontend/           # Frontend (Next.js)
+│   │   └── backend/            # Backend (Node.js/Express)
+│   └── mini-app/               # Telegram Mini-App (Next.js/React)
+└── packages/                   # Shared code
+    ├── ui/                     # Shared UI components
+    └── utils/                  # Shared utilities
 ```
 
-**Confirm**: Let me know when you’ve created the `README.md` file (or skip if you don’t want one).
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+- **Node.js** (v18+ recommended).
+- **npm** or **Yarn** (v1.22+).
+- **Git**.
 
 ---
 
-### **Step 6: Add All Files to Git**
-Run this command to add all files (except those in `.gitignore`) to Git:
+### Installation
+
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/jdefi/trestle.git
+   cd trestle
+   ```
+
+2. **Install dependencies**:
+   ```bash
+   npm install
+   # or
+   yarn install
+   ```
+
+3. **Set up environment variables**:
+   - Copy `.env.example` to `.env` in each project (e.g., `apps/main/.env`).
+   - Fill in the required values (e.g., API keys, RPC URLs).
+
+---
+
+## 🛠 Development
+
+### Run All Projects
 ```bash
-git add .
+npm run dev
+# or
+yarn dev
 ```
 
-**Confirm**: Let me know when you’ve run this command.
-
----
-
-### **Step 7: Commit All Files**
-Run this command to commit all files:
+### Run a Specific Project
 ```bash
-git commit -m "Initial commit: Add all projects"
+cd apps/main
+npm run dev
+# or
+yarn dev
 ```
 
-**Confirm**: Let me know when you’ve run this command.
+---
+
+## 🌐 Deployment
+
+### `trestle.website` (Vercel)
+1. Push code to the `main` branch.
+2. Vercel will automatically deploy.
+3. Configure environment variables in Vercel.
+
+### `testnet.trestle.website` (Cloudflare Pages)
+1. Push code to the `main` branch.
+2. Cloudflare Pages will automatically deploy.
+3. Configure environment variables in Cloudflare Pages.
+
+### `reward.trestle.website` (Frontend: Netlify, Backend: Railway/Fly.io)
+1. **Frontend**:
+   - Push code to the `main` branch.
+   - Netlify will automatically deploy.
+   - Configure environment variables in Netlify.
+2. **Backend**:
+   - Push code to the `main` branch.
+   - Railway/Fly.io will automatically deploy.
+   - Configure environment variables in Railway/Fly.io.
+
+### Telegram Mini-App (Vercel or Cloudflare Pages)
+1. Push code to the `main` branch.
+2. Vercel/Cloudflare Pages will automatically deploy.
+3. Configure environment variables in the hosting provider.
 
 ---
 
-### **Step 8: Create a Remote Repository**
-1. Go to **GitHub**, **GitLab**, or **Bitbucket** and create a new repository (e.g., `trestle`).
-2. Copy the **remote repository URL** (e.g., `https://github.com/your-username/trestle.git`).
+## 🤝 Contributing
 
-**Confirm**: Let me know when you’ve created the remote repository and have the URL.
+### Branch Strategy
+- `main`: Production-ready code.
+- `develop`: Staging area for features.
+- `feature/`: Feature branches (e.g., `feature/add-login`).
+- `release/`: Release branches (e.g., `release/v1.0.0`).
+- `hotfix/`: Hotfix branches (e.g., `hotfix/fix-login-bug`).
+
+### Pull Requests
+1. Create a feature branch:
+   ```bash
+   git checkout -b feature/your-feature-name
+   ```
+2. Commit your changes:
+   ```bash
+   git commit -m "feat: Add your feature"
+   ```
+3. Push to the remote:
+   ```bash
+   git push origin feature/your-feature-name
+   ```
+4. Open a **Pull Request** to `develop`.
 
 ---
 
-### **Step 9: Link Local Repository to Remote**
-Run this command to link your local repository to the remote (replace `<remote-url>` with your repository URL):
-```bash
-git remote add origin <remote-url>
+## 📜 License
+This project is licensed under the **MIT License**.
+
+---
+
+## 📬 Contact
+- **Website**: [https://trestle.website](https://trestle.website)
+- **Twitter**: [@TrestleProtocol](https://twitter.com/TrestleProtocol)
+- **Telegram**: [@TrestleProtocol](https://t.me/TrestleProtocol)
 ```
 
-**Confirm**: Let me know when you’ve run this command.
-
 ---
 
-### **Step 10: Push to Remote**
-Run this command to push your code to the remote repository:
-```bash
-git push -u origin main
