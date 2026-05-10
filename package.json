@@ -1,0 +1,17 @@
+{
+  "name": "trestle",
+  "private": true,
+  "workspaces": [
+    "trestle.website",
+    "testnet.trestle.website",
+    "reward.trestle.website/frontend",
+    "reward.trestle.website/backend",
+    "Telegram-mini-app"
+  ],
+  "scripts": {
+  "dev": "concurrently \"npm run dev --workspace=trestle.website\" \"npm run dev --workspace=testnet.trestle.website\" \"npm run dev --workspace=reward.trestle.website/frontend\" \"npm run dev --workspace=Telegram-mini-app\" \"npm run dev --workspace=reward.trestle.website/backend\""
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
+}
