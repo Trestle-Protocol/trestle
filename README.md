@@ -1,4 +1,4 @@
-# Trestle Protocol Monorepo
+# Trestle DeFi Monorepo
 
 ![Trestle Logo](https://via.placeholder.com/150) <!-- Replace with your logo -->
 
