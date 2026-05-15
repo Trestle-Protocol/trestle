@@ -47,7 +47,7 @@ trestle/
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/jdefi/trestle.git
+   git clone https://github.com/Trestle-Protocol/trestle.git
    cd trestle
    ```
 
@@ -145,8 +145,10 @@ This project is licensed under the **MIT License**.
 
 ## 📬 Contact
 - **Website**: [https://trestle.website](https://trestle.website)
-- **Twitter**: [@TrestleProtocol](https://twitter.com/TrestleProtocol)
-- **Telegram**: [@TrestleProtocol](https://t.me/TrestleProtocol)
+- **GitHub**: [Trestle Protocol](https://github.com/Trestle-Protocol)
+- **Discord**: [Trestle Protocol](https://discord.gg/4dCCvnJYGT)
+- **Telegram**: [Trestle Pro](https://t.m/TrestlePro)
+- **Email**: contact@trestle.website
 ```
 
 ---

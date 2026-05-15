@@ -2,15 +2,7 @@ import { useState, useEffect } from "react";
 import { useActiveAccount } from "thirdweb/react";
 import { useContracts } from "../hooks/useContracts";
 import { api } from "../lib/api";
-
-interface TaskDef {
-  id: number;
-  title: string;
-  desc: string;
-  reward: string;
-  type: string;
-  active: boolean;
-}
+import LoadingSpinner from "../components/LoadingSpinner";
 
 export default function Tasks() {
   const { address } = useActiveAccount();
@@ -27,33 +19,38 @@ export default function Tasks() {
   useEffect(() => {
     if (!address) return;
     api<{ completed: { task_id: number }[] }>(`/api/users/${address}`)
-      .then(u => {
-        setCompletedIds(u.completed.map(c => c.task_id));
-      })
+      .then(u => setCompletedIds(u.completed.map(c => c.task_id)))
       .catch(console.error);
   }, [address]);
 
-  if (!isConnected) return <div className="text-center py-12 text-gray-500"><p>Sign in to see tasks</p></div>;
-
-  if (!isEligible) {
-    return (
-      <div className="text-center py-12 text-gray-500">
-        <p className="mb-2">Verify your identity first</p>
-        <a href="/verify" className="text-emerald-600 underline text-sm">Go to verification</a>
+  if (!isConnected) return (
+    <div className="text-center py-16">
+      <div className="text-5xl mb-2">📋</div>
+      <h2 className="text-lg font-semibold text-gray-700 mb-1">Sign in to see tasks</h2>
+      <div className="bg-gray-50 rounded-xl p-4 max-w-sm mx-auto mt-4">
+        <img
+          src={`https://api.qrserver.com/v1/create-qr-code/?size=140x140&data=${encodeURIComponent("https://reward.trestle.website")}&color=059669&bgcolor=ffffff&ecc=M`}
+          alt="QR"
+          className="rounded-lg mx-auto mb-2"
+        />
+        <p className="text-[10px] text-gray-400 font-medium">Scan with wallet to connect</p>
       </div>
-    );
-  }
+    </div>
+  );
+
+  if (!isEligible) return (
+    <div className="text-center py-12">
+      <div className="text-4xl mb-2">🔒</div>
+      <p className="mb-2 text-gray-600">Verify your identity first</p>
+      <a href="/verify" className="text-emerald-600 underline text-sm font-medium">Go to verification →</a>
+    </div>
+  );
 
   const handleComplete = async (taskId: number) => {
     setLoadingTask(taskId);
     try {
-      if (taskId === 1) {
-        await api(`/api/users/${address}/checkin`, { method: "POST" });
-      }
-      await api(`/api/users/${address}/complete-task`, {
-        method: "POST",
-        body: JSON.stringify({ taskId }),
-      });
+      if (taskId === 1) await api(`/api/users/${address}/checkin`, { method: "POST" });
+      await api(`/api/users/${address}/complete-task`, { method: "POST", body: JSON.stringify({ taskId }) });
       setCompletedIds(prev => [...prev, taskId]);
     } catch (e: any) {
       if (e.message !== "already completed today") alert(e.message);
@@ -67,9 +64,7 @@ export default function Tasks() {
     <div className="space-y-4">
       <div className="flex gap-2 overflow-x-auto pb-2">
         {["all", "daily", "basic", "mod", "advanced"].map(f => (
-          <button
-            key={f}
-            onClick={() => setFilter(f)}
+          <button key={f} onClick={() => setFilter(f)}
             className={`px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap ${
               filter === f ? "bg-emerald-500 text-white" : "bg-gray-100 text-gray-600"
             }`}
@@ -82,31 +77,33 @@ export default function Tasks() {
       {filtered.map(task => {
         const done = completedIds.includes(task.id);
         return (
-          <div
-            key={task.id}
-            className={`bg-white rounded-xl p-4 border transition ${
-              done ? "border-emerald-300 bg-emerald-50" : "border-gray-200"
-            }`}
-          >
+          <div key={task.id} className={`bg-white rounded-xl p-4 border transition ${
+            done ? "border-emerald-300 bg-emerald-50" : "border-gray-200"
+          }`}>
             <div className="flex items-start gap-3">
-              <input
-                type="checkbox"
-                checked={done}
-                disabled={done || loadingTask === task.id}
+              <input type="checkbox" checked={done} disabled={done || loadingTask === task.id}
                 onChange={() => handleComplete(task.id)}
                 className="mt-1 w-4 h-4 rounded border-gray-300 text-emerald-500 focus:ring-emerald-400"
               />
               <div className="flex-1">
-                <h3 className={`font-semibold text-sm ${done ? "line-through text-gray-400" : ""}`}>
-                  {task.title}
-                </h3>
+                <h3 className={`font-semibold text-sm ${done ? "line-through text-gray-400" : ""}`}>{task.title}</h3>
                 <p className="text-xs text-gray-500 mt-0.5">{task.desc}</p>
                 <p className="text-xs text-emerald-600 font-medium mt-1">{task.reward} hNOBT</p>
               </div>
+              {loadingTask === task.id && <LoadingSpinner size={24} label="" />}
             </div>
           </div>
         );
       })}
     </div>
   );
+}
+
+interface TaskDef {
+  id: number;
+  title: string;
+  desc: string;
+  reward: string;
+  type: string;
+  active: boolean;
 }

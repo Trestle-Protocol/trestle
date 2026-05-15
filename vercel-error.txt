@@ -1,0 +1,42 @@
+12:27:12.959 
+  Collecting page data using 1 worker ...
+12:27:13.354 
+  Generating static pages using 1 worker (0/3) ...
+12:27:13.675 
+✓ Generating static pages using 1 worker (3/3) in 321ms
+12:27:13.681 
+  Finalizing page optimization ...
+12:27:13.828 
+  Running onBuildComplete from Vercel
+12:27:14.301 
+12:27:14.304 
+Route (app)
+12:27:14.304 
+┌ ○ /
+12:27:14.304 
+├ ○ /_not-found
+12:27:14.305 
+├ ƒ /app
+12:27:14.305 
+├ ƒ /app/marketplace
+12:27:14.305 
+├ ƒ /app/stake/tier1
+12:27:14.305 
+├ ƒ /app/stake/tier2
+12:27:14.305 
+├ ƒ /app/stake/tier3
+12:27:14.305 
+└ ƒ /app/withdraw
+12:27:14.306 
+12:27:14.306 
+12:27:14.306 
+○  (Static)   prerendered as static content
+12:27:14.306 
+ƒ  (Dynamic)  server-rendered on demand
+12:27:14.306 
+12:27:14.885 
+Build Completed in /vercel/output [2m]
+12:27:15.605 
+Deploying outputs...
+12:27:21.716 
+Deployment completed

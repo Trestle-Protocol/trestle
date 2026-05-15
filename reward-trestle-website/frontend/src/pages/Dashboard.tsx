@@ -2,23 +2,7 @@ import { useState, useEffect } from "react";
 import { useActiveAccount } from "thirdweb/react";
 import { useContracts } from "../hooks/useContracts";
 import { api } from "../lib/api";
-
-function LoginPrompt() {
-  return (
-    <div className="text-center py-16">
-      <div className="text-5xl mb-4">🔐</div>
-      <h2 className="text-xl font-semibold text-gray-800 mb-2">Welcome to Trestle</h2>
-      <p className="text-sm text-gray-500 mb-6 max-w-xs mx-auto">
-        Sign in with email, Google, Telegram or wallet to start earning rewards.
-      </p>
-      <div className="space-y-2 text-xs text-gray-400">
-        <p>• Complete tasks to earn hNOBT</p>
-        <p>• Build streaks for bonus multipliers</p>
-        <p>• Biometric verification prevents bots</p>
-      </div>
-    </div>
-  );
-}
+import LoadingSpinner from "../components/LoadingSpinner";
 
 export default function Dashboard() {
   const { address, hNOBTBalance, isEligible, isConnected, lastClaimTime, claimWindowStart, claimInterval } = useContracts();
@@ -37,93 +21,47 @@ export default function Dashboard() {
       .catch(console.error);
   }, [address]);
 
-  if (!isConnected) return <LoginPrompt />;
+  if (!isConnected) {
+    return (
+      <div className="text-center py-16">
+        <div className="text-5xl mb-4">🔐</div>
+        <h2 className="text-xl font-semibold text-gray-800 mb-2">Welcome to Trestle</h2>
+        <p className="text-sm text-gray-500 mb-6 max-w-xs mx-auto">
+          Sign in with email, Google, Telegram or wallet to start earning rewards.
+        </p>
+        <div className="bg-gray-50 rounded-xl p-4 max-w-sm mx-auto">
+          <img
+            src={`https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=${encodeURIComponent("https://reward.trestle.website")}&color=059669&bgcolor=ffffff&ecc=M`}
+            alt="QR Code"
+            className="rounded-lg mx-auto mb-2"
+          />
+          <p className="text-[10px] text-gray-400 font-medium">
+            Scan with mobile wallet to connect
+          </p>
+        </div>
+        <div className="space-y-2 text-xs text-gray-400 mt-6">
+          <p>• Complete tasks to earn hNOBT</p>
+          <p>• Build streaks for bonus multipliers</p>
+          <p>• Biometric verification prevents bots</p>
+        </div>
+      </div>
+    );
+  }
 
-  const now = Math.floor(Date.now() / 1000);
-  const windowOpen = now >= claimWindowStart;
-  const canClaim = windowOpen && (lastClaimTime + claimInterval <= now || lastClaimTime === 0);
-  const nextClaimDate = lastClaimTime > 0
-    ? new Date((lastClaimTime + claimInterval) * 1000).toLocaleDateString()
-    : "First claim ready";
+  if (!isConnected && address) return <LoadingSpinner label="Connecting..." />;
 
   return (
     <div className="space-y-6">
-      {!isEligible && (
-        <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 text-sm text-amber-800">
-          Verify your identity to unlock rewards.{' '}
-          <a href="/verify" className="underline font-medium">Start now</a>
-        </div>
-      )}
-
-      <div className={`rounded-xl p-6 text-white ${isEligible ? "bg-emerald-500" : "bg-gray-400"}`}>
-        <p className="text-sm opacity-80">Your hNOBT Balance</p>
-        <p className="text-3xl font-bold">
-          {parseInt(hNOBTBalance) > 0 ? (parseInt(hNOBTBalance) / 1e18).toFixed(4) : "0.0000"}
-        </p>
-        {address && (
-          <p className="text-xs opacity-60 mt-1">{address.slice(0, 6)}...{address.slice(-4)}</p>
-        )}
-        <div className="mt-3 flex gap-2">
-          {isEligible ? (
-            <span className="bg-emerald-400 text-xs px-2 py-0.5 rounded-full">Verified</span>
-          ) : (
-            <span className="bg-amber-400 text-xs px-2 py-0.5 rounded-full">Unverified</span>
-          )}
-          {canClaim && isEligible && (
-            <span className="bg-white/20 text-xs px-2 py-0.5 rounded-full">Claim Ready</span>
-          )}
-        </div>
+      <div className="text-center py-8">
+        <h2 className="text-2xl font-bold text-emerald-600">Connected!</h2>
+        <p className="text-gray-600">Address: {address ? `${(address as string).slice(0, 6)}...${(address as string).slice(-4)}` : 'Connecting...'}</p>
       </div>
-
-      <div className="grid grid-cols-2 gap-3">
-        <div className="bg-white rounded-xl p-4 border border-gray-200">
-          <p className="text-xs text-gray-500">Streak</p>
-          <p className="text-sm font-semibold mt-1">{streak} days</p>
-        </div>
-        <div className="bg-white rounded-xl p-4 border border-gray-200">
-          <p className="text-xs text-gray-500">Tasks Done</p>
-          <p className="text-sm font-semibold mt-1">{tasksDone}</p>
-        </div>
-        <div className="bg-white rounded-xl p-4 border border-gray-200">
-          <p className="text-xs text-gray-500">Status</p>
-          <p className="text-sm font-semibold mt-1">{isEligible ? "Eligible" : "Verify identity"}</p>
-        </div>
-        <div className="bg-white rounded-xl p-4 border border-gray-200">
-          <p className="text-xs text-gray-500">Next Claim</p>
-          <p className="text-sm font-semibold mt-1">{nextClaimDate}</p>
-        </div>
+      <div className="bg-gradient-to-r from-emerald-500 to-emerald-600 rounded-2xl p-6 text-white text-center">
+        <p className="text-sm opacity-80">Tap the <span className="font-bold">📱 Open</span> button in the header to access this page on mobile</p>
       </div>
-
-      {source && (
-        <div className="bg-white rounded-xl p-3 border border-gray-200 flex items-center justify-between">
-          <span className="text-xs text-gray-500">Source</span>
-          <span className="text-xs font-medium text-emerald-600">{source}</span>
-        </div>
-      )}
-
-      <div className="bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-xl p-4">
-        <h3 className="font-semibold text-sm text-amber-800">Early Adopter Multiplier</h3>
-        <p className="text-xs text-amber-700 mt-1">
-          First 1000 users get 2x rewards. Next 1000 get 1.9x. Complete tasks, build streaks,
-          and link accounts to maximize your rewards.
-        </p>
-      </div>
-
-      <div className="grid gap-3">
-        {[
-          { href: "/tasks", title: "Daily Tasks", desc: "Complete tasks to earn hNOBT" },
-          { href: "/verify", title: "Verify Identity", desc: "Link accounts + biometric check" },
-          { href: "/leaderboard", title: "Leaderboard", desc: "See where you rank this week" },
-        ].map(item => (
-          <a
-            key={item.href}
-            href={item.href}
-            className="block bg-white rounded-xl p-4 border border-gray-200 hover:border-emerald-300 transition"
-          >
-            <h3 className="font-semibold">{item.title}</h3>
-            <p className="text-xs text-gray-500 mt-1">{item.desc}</p>
-          </a>
-        ))}
+      <div className="text-center py-8">
+        <h2 className="text-2xl font-bold text-emerald-600">Dashboard Working</h2>
+        <p className="text-gray-600">If you see this, the basic layout is working.</p>
       </div>
     </div>
   );

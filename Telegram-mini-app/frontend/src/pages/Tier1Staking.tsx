@@ -10,7 +10,8 @@ export default function Tier1Staking() {
 
   if (!isConnected) {
     return (
-      <div className="text-center py-12">
+      <div className="text-center py-8">
+        <div className="text-4xl mb-2">🔐</div>
         <p className="text-gray-500">Connect wallet to stake hNOBT</p>
       </div>
     );
@@ -19,65 +20,44 @@ export default function Tier1Staking() {
   return (
     <div className="space-y-4">
       <h2 className="text-lg font-semibold">Tier 1: Stake hNOBT</h2>
-
-      <div className="bg-amber-50 border border-amber-200 rounded-xl p-3 text-xs text-amber-700 space-y-1">
-        <p>⚠ BroilerPlus (BRT) has a {BROILER_INFO.taxPercent}% tax on every transfer. Set slippage to {BROILER_INFO.recommendedSlippage} when swapping.</p>
-        <p>Supply: {BROILER_INFO.supplyDisplay} BRT</p>
+      <div className="bg-amber-50 border border-amber-200 rounded-xl p-3 text-[10px] text-amber-700 space-y-1">
+        <p>⚠ BRT has a {BROILER_INFO.taxPercent}% tax. Slippage: {BROILER_INFO.recommendedSlippage}</p>
       </div>
 
-      <div className="bg-white rounded-xl border p-4 space-y-3">
+      <div className="bg-white rounded-xl border border-gray-200 p-4 space-y-4">
         <div className="flex gap-2">
           <button onClick={() => setAction("stake")}
-            className={`flex-1 py-2 rounded-lg text-sm font-medium ${action === "stake" ? "bg-emerald-500 text-white" : "bg-gray-100 text-gray-500"}`}>Stake</button>
+            className={`flex-1 py-2.5 rounded-lg text-sm font-medium ${action === "stake" ? "bg-emerald-500 text-white" : "bg-gray-50 text-gray-500 border border-gray-200"}`}>
+            Stake
+          </button>
           <button onClick={() => setAction("unstake")}
-            className={`flex-1 py-2 rounded-lg text-sm font-medium ${action === "unstake" ? "bg-red-500 text-white" : "bg-gray-100 text-gray-500"}`}>Unstake</button>
+            className={`flex-1 py-2.5 rounded-lg text-sm font-medium ${action === "unstake" ? "bg-red-500 text-white" : "bg-gray-50 text-gray-500 border border-gray-200"}`}>
+            Unstake
+          </button>
         </div>
 
         {action === "stake" && (
           <div>
-            <label className="text-xs text-gray-500 mb-1 block">Lock Duration</label>
-            <div className="flex gap-2 mb-3">
+            <label className="text-[11px] text-gray-500 mb-1 block">Lock Duration</label>
+            <div className="flex gap-2">
               {STAKING_DURATIONS.map((d) => (
                 <button key={d.id} onClick={() => setDuration(d.id)}
-                  className={`flex-1 py-2 rounded-lg text-sm ${duration === d.id ? "bg-emerald-500 text-white" : "bg-gray-100 text-gray-600"}`}>
+                  className={`flex-1 py-2 rounded-lg text-[10px] text-center ${duration === d.id ? "bg-emerald-500 text-white" : "bg-gray-50 text-gray-600 border border-gray-200"}`}>
                   {d.label}
-                  <span className="block text-xs opacity-70">{d.multiplier}</span>
                 </button>
               ))}
             </div>
           </div>
         )}
 
-        <input type="number" placeholder="Amount" value={amount} onChange={(e) => setAmount(e.target.value)}
-          className="w-full p-3 border rounded-lg text-sm" />
-
-        {action === "stake" && (
-          <p className="text-xs text-gray-400 text-center">
-            Lock hNOBT for {STAKING_DURATIONS[duration].label}. Earn BroilerPlus at {STAKING_DURATIONS[duration].multiplier} reward rate. No early unstake.
-          </p>
-        )}
+        <input type="number" placeholder="Amount" value={amount}
+          onChange={(e) => setAmount(e.target.value)}
+          className="w-full p-3 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500" />
 
         <button disabled={!amount || !isCorrectChain}
           className={`w-full py-3 rounded-lg text-white font-medium disabled:opacity-50 ${action === "stake" ? "bg-emerald-500" : "bg-red-500"}`}>
-          {action === "stake" ? `Stake hNOBT (${STAKING_DURATIONS[duration].label})` : "Unstake hNOBT"}
+          {action === "stake" ? `Stake (${STAKING_DURATIONS[duration].label})` : "Unstake hNOBT"}
         </button>
-      </div>
-
-      <div className="bg-white rounded-xl border p-4">
-        <h3 className="font-semibold text-sm mb-2">Broiler Mining Allocation</h3>
-        <div className="space-y-1.5">
-          {Object.values(BROILER_INFO.miningAllocation).map((item) => (
-            <div key={item.label} className="flex justify-between text-xs">
-              <span className="text-gray-600">{item.label}</span>
-              <span className="font-medium">{item.pct}%</span>
-            </div>
-          ))}
-        </div>
-        <div className="mt-2 h-2 bg-gray-100 rounded-full overflow-hidden flex">
-          {Object.values(BROILER_INFO.miningAllocation).map((item) => (
-            <div key={item.label} className="h-full" style={{ width: `${item.pct}%`, background: item.pct >= 50 ? "#22c55e" : item.pct >= 10 ? "#3b82f6" : "#a855f7" }} />
-          ))}
-        </div>
       </div>
     </div>
   );

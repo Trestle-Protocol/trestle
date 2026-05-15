@@ -8,7 +8,7 @@ The Reward Hub implements **decentralized biometric verification** to prevent bo
 ### 1. Multi-Method Authentication
 - **Wallet Login**: MetaMask, WalletConnect, Account Abstraction
 - **Email Login**: With magic link verification
-- **Social Login**: Telegram, Google, Twitter, Discord
+- **Social Login**: Telegram, Google, Discord
 - **Biometric Verification**: Required for reward eligibility
 
 ### 2. Decentralized Identity Binding
@@ -18,7 +18,7 @@ User Identity = {
   emails: ["user@email.com"],       // Verified emails
   socials: {                        // Social accounts
     telegram: "@username",
-    twitter: "@handle",
+    discord: "Trestle Protocol",
     discord: "username#1234"
   },
   biometricHash: "0xhash...",       // Verified biometric signature
@@ -144,7 +144,7 @@ function claimReward(uint256 taskId) external onlyEligible {
 ```javascript
 // 1. User connects wallet
 // 2. User links email via magic link
-// 3. User connects Telegram/Twitter
+// 3. User connects Telegram/Discord
 // 4. User completes biometric verification (camera/fingerprint)
 // 5. ZK proof generated client-side
 // 6. All linked to single identity
@@ -192,3 +192,12 @@ reward.trestle.website/
 | Sybil Attacks | Identity linking | Multi-account verification |
 | Airdrop Farming | IP/device tracking | Rate limiting + verification |
 | Referral Spam | Graph analysis | Verified referral only |
+
+---
+
+## 📬 Contact
+- **Website**: [https://trestle.website](https://trestle.website)
+- **GitHub**: [Trestle Protocol](https://github.com/Trestle-Protocol)
+- **Discord**: [Trestle Protocol](https://discord.gg/4dCCvnJYGT)
+- **Telegram**: [Trestle Pro](https://t.m/TrestlePro)
+- **Email**: contact@trestle.website

@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useActiveAccount } from "thirdweb/react";
 import { useContracts } from "../hooks/useContracts";
 import { api } from "../lib/api";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 export default function Claim() {
   const { address } = useActiveAccount();
@@ -27,7 +28,20 @@ export default function Claim() {
     ? new Date((lastClaimTime + claimInterval) * 1000).toLocaleDateString()
     : "Ready";
 
-  if (!isConnected) return <div className="text-center py-12 text-gray-500"><p>Sign in to claim rewards</p></div>;
+  if (!isConnected) return (
+    <div className="text-center py-16">
+      <div className="text-5xl mb-2">💰</div>
+      <h2 className="text-lg font-semibold text-gray-700 mb-1">Sign in to claim rewards</h2>
+      <div className="bg-gray-50 rounded-xl p-4 max-w-sm mx-auto mt-4">
+        <img
+          src={`https://api.qrserver.com/v1/create-qr-code/?size=140x140&data=${encodeURIComponent("https://reward.trestle.website/claim")}&color=059669&bgcolor=ffffff&ecc=M`}
+          alt="QR"
+          className="rounded-lg mx-auto mb-2"
+        />
+        <p className="text-[10px] text-gray-400 font-medium">Scan with wallet to connect</p>
+      </div>
+    </div>
+  );
 
   const handleClaim = async () => {
     if (!canClaim || !isEligible || !address) return;
@@ -94,7 +108,7 @@ export default function Claim() {
         disabled={!canClaim || !isEligible || claiming}
         className="w-full bg-emerald-500 text-white rounded-xl py-4 font-semibold text-lg hover:bg-emerald-600 transition disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        {claiming ? "Claiming..." : !isEligible ? "Verify First" : !canClaim ? "No Rewards to Claim" : `Claim ${displayReward} hNOBT`}
+        {claiming ? <><LoadingSpinner size={20} label="" /> Claiming...</> : !isEligible ? "Verify First" : !canClaim ? "No Rewards to Claim" : `Claim ${displayReward} hNOBT`}
       </button>
 
       <div className="bg-gray-50 rounded-xl p-4 border border-gray-200">
@@ -108,6 +122,17 @@ export default function Claim() {
               <p>Streak: {breakdown.streak || 0}d ({breakdown.streak_bonus || "1.0"}x)</p>
             </>
           )}
+        </div>
+      </div>
+
+      <div className="text-center">
+        <div className="bg-white rounded-xl shadow border border-gray-100 p-4 inline-block">
+          <img
+            src={`https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=${encodeURIComponent("https://reward.trestle.website/claim")}&color=059669&bgcolor=ffffff&ecc=M`}
+            alt="QR"
+            className="rounded mx-auto"
+          />
+          <p className="text-[10px] text-gray-400 mt-1">Scan to access on mobile</p>
         </div>
       </div>
     </div>

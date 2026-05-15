@@ -11,10 +11,10 @@ export default function StakeCard({ title, description, to, color = "emerald" }:
   return (
     <NavLink
       to={to}
-      className={`block p-4 rounded-xl border border-gray-200 bg-white hover:shadow-md transition-shadow`}
+      className="block p-6 bg-white rounded-2xl border border-gray-100 hover:shadow-lg hover:border-emerald-100 transition-all"
     >
-      <h3 className={`font-semibold text-${color}-600`}>{title}</h3>
-      <p className="text-sm text-gray-500 mt-1">{description}</p>
+      <h3 className={`font-semibold text-${color}-600 mb-2`}>{title}</h3>
+      <p className="text-sm text-gray-500 leading-relaxed">{description}</p>
     </NavLink>
   );
 }

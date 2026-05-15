@@ -9,6 +9,7 @@ import Tier2Staking from "./pages/Tier2Staking";
 import Tier3Vault from "./pages/Tier3Vault";
 import Withdraw from "./pages/Withdraw";
 import TreMindChat from "./components/TreMindChat";
+import { useWalletSign } from "./components/QRCode";
 
 export default function App() {
   const { ready, expand } = useTelegram();
@@ -17,6 +18,8 @@ export default function App() {
     ready();
     expand();
   }, []);
+
+  useWalletSign();
 
   return (
     <BrowserRouter>

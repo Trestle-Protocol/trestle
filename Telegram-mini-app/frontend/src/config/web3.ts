@@ -11,7 +11,7 @@ export const chains = [polygonAmoy, polygon];
 export const wallets = [
   inAppWallet({
     auth: {
-      options: ["email", "google", "telegram", "twitter", "wallet"],
+      options: ["email", "google", "telegram", "discord", "wallet"],
     },
   }),
 ];

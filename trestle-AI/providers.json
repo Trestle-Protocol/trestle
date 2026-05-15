@@ -1,0 +1,26 @@
+[
+  {
+    "name": "Groq",
+    "url": "https://api.groq.com/openai/v1/chat/completions",
+    "apiKey": "YOUR_GROQ_API_KEY",
+    "model": "llama3-8b-8192",
+    "max_tokens": 500,
+    "temperature": 0.7
+  },
+  {
+    "name": "NVIDIA NIM",
+    "url": "https://integrate.api.nvidia.com/v1/chat/completions",
+    "apiKey": "YOUR_NVIDIA_API_KEY",
+    "model": "meta/llama-3-8b-instruct",
+    "max_tokens": 500,
+    "temperature": 0.7
+  },
+  {
+    "name": "Hugging Face",
+    "url": "https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.1",
+    "apiKey": "YOUR_HF_API_KEY",
+    "model": null,
+    "max_tokens": 500,
+    "temperature": 0.7
+  }
+]

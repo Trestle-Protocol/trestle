@@ -10,7 +10,7 @@ export default function WalletStatus() {
       chain={polygonAmoy}
       wallets={[
         inAppWallet({
-          auth: { options: ["email", "google", "telegram", "twitter", "wallet"] },
+          auth: { options: ["email", "google", "telegram", "discord", "wallet"] },
         }),
       ]}
       theme="light"

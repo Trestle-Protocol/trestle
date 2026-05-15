@@ -1,16 +1,7 @@
 import { useState, useEffect } from "react";
+import { useActiveAccount } from "thirdweb/react";
+import { useContracts } from "../hooks/useContracts";
 import { api } from "../lib/api";
-
-interface LeaderEntry {
-  rank: number;
-  address: string;
-  score: number;
-  streak: number;
-  source: string;
-  tasksDone: number;
-}
-
-const MEDALS = ["🥇", "🥈", "🥉"];
 
 export default function Leaderboard() {
   const [entries, setEntries] = useState<LeaderEntry[]>([]);
@@ -31,7 +22,10 @@ export default function Leaderboard() {
       </div>
 
       {loading ? (
-        <div className="text-center py-8 text-gray-400 text-sm">Loading leaderboard...</div>
+        <div className="text-center py-8">
+          <div className="text-4xl mb-2 animate-pulse">🏆</div>
+          <p className="text-sm text-gray-400">Loading leaderboard...</p>
+        </div>
       ) : (
         <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
           <div className="grid grid-cols-12 gap-2 px-4 py-2 bg-gray-50 text-xs font-semibold text-gray-500">
@@ -47,7 +41,7 @@ export default function Leaderboard() {
             entries.map(e => (
               <div key={e.rank} className="grid grid-cols-12 gap-2 px-4 py-2.5 border-t border-gray-100 text-sm">
                 <span className="col-span-1 font-semibold text-gray-400">
-                  {e.rank <= 3 ? MEDALS[e.rank - 1] : e.rank}
+                  {e.rank <= 3 ? ["🥇","🥈","🥉"][e.rank - 1] : e.rank}
                 </span>
                 <span className="col-span-4 text-gray-700 truncate">{e.address}</span>
                 <span className="col-span-3 text-right font-medium text-emerald-600">{e.score}</span>
@@ -68,4 +62,13 @@ export default function Leaderboard() {
       </div>
     </div>
   );
+}
+
+interface LeaderEntry {
+  rank: number;
+  address: string;
+  score: number;
+  streak: number;
+  source: string;
+  tasksDone: number;
 }

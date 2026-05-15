@@ -6,7 +6,7 @@ import Verify from "./pages/Verify";
 import Claim from "./pages/Claim";
 import Leaderboard from "./pages/Leaderboard";
 import Admin from "./pages/Admin";
-import TreMindChat from "./components/TreMindChat";
+// import TreMindChat from "./components/TreMindChat";
 
 export default function App() {
   return (
@@ -21,7 +21,7 @@ export default function App() {
           <Route path="/admin" element={<Admin />} />
         </Route>
       </Routes>
-      <TreMindChat />
+      {/* <TreMindChat /> */}
     </BrowserRouter>
   );
 }

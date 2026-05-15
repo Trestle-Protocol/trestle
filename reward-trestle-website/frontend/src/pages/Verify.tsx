@@ -7,7 +7,6 @@ const ACCOUNT_TYPES = [
   { id: "wallet", label: "Wallet", icon: "🔗" },
   { id: "email", label: "Email", icon: "📧" },
   { id: "telegram", label: "Telegram", icon: "💬" },
-  { id: "twitter", label: "Twitter / X", icon: "🐦" },
   { id: "discord", label: "Discord", icon: "💎" },
   { id: "forum", label: "Forum", icon: "📋" },
 ];
@@ -15,7 +14,6 @@ const ACCOUNT_TYPES = [
 const SOURCES = [
   { id: "", label: "Direct / Unknown", icon: "🔗" },
   { id: "telegram", label: "Telegram", icon: "💬" },
-  { id: "twitter", label: "Twitter / X", icon: "🐦" },
   { id: "discord", label: "Discord", icon: "💎" },
   { id: "forum", label: "Community Forum", icon: "📋" },
   { id: "email", label: "Email Campaign", icon: "📧" },
@@ -40,9 +38,7 @@ export default function Verify() {
     SOURCES.find(s => s.id === refSource) ? refSource : ""
   );
 
-  if (!isConnected) {
-    return <div className="text-center py-12 text-gray-500"><p>Sign in to verify</p></div>;
-  }
+  if (!isConnected) return <div className="text-center py-12 text-gray-500"><p>Sign in to verify</p></div>;
 
   if (isEligible) {
     return (

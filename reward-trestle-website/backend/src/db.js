@@ -12,59 +12,60 @@ export function initDB() {
   db.pragma("foreign_keys = ON");
 
   db.exec(`
-    CREATE TABLE IF NOT EXISTS config (
-      key TEXT PRIMARY KEY,
-      value TEXT NOT NULL
-    );
+     CREATE TABLE IF NOT EXISTS config (
+       key TEXT PRIMARY KEY,
+       value TEXT NOT NULL
+     );
 
-    CREATE TABLE IF NOT EXISTS tasks (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      title TEXT NOT NULL,
-      desc TEXT NOT NULL DEFAULT '',
-      reward TEXT NOT NULL DEFAULT '10',
-      type TEXT NOT NULL DEFAULT 'basic',
-      active INTEGER NOT NULL DEFAULT 1,
-      created_at TEXT NOT NULL DEFAULT (datetime('now'))
-    );
+     CREATE TABLE IF NOT EXISTS tasks (
+       id INTEGER PRIMARY KEY AUTOINCREMENT,
+       title TEXT NOT NULL,
+       desc TEXT NOT NULL DEFAULT '',
+       reward TEXT NOT NULL DEFAULT '10',
+       type TEXT NOT NULL DEFAULT 'basic',
+       active INTEGER NOT NULL DEFAULT 1,
+       created_at TEXT NOT NULL DEFAULT (datetime('now'))
+     );
 
-    CREATE TABLE IF NOT EXISTS tiers (
-      rank INTEGER PRIMARY KEY,
-      max_users INTEGER NOT NULL DEFAULT 1000,
-      multiplier REAL NOT NULL DEFAULT 1.0,
-      label TEXT NOT NULL DEFAULT ''
-    );
+     CREATE TABLE IF NOT EXISTS tiers (
+       rank INTEGER PRIMARY KEY,
+       max_users INTEGER NOT NULL DEFAULT 1000,
+       multiplier REAL NOT NULL DEFAULT 1.0,
+       label TEXT NOT NULL DEFAULT ''
+     );
 
-    CREATE TABLE IF NOT EXISTS source_bonuses (
-      source TEXT PRIMARY KEY,
-      bonus REAL NOT NULL DEFAULT 1.0,
-      label TEXT NOT NULL DEFAULT ''
-    );
+     CREATE TABLE IF NOT EXISTS source_bonuses (
+       source TEXT PRIMARY KEY,
+       bonus REAL NOT NULL DEFAULT 1.0,
+       label TEXT NOT NULL DEFAULT ''
+     );
 
-    CREATE TABLE IF NOT EXISTS users (
-      address TEXT PRIMARY KEY,
-      source TEXT NOT NULL DEFAULT '',
-      streak INTEGER NOT NULL DEFAULT 0,
-      last_checkin TEXT,
-      total_earned TEXT NOT NULL DEFAULT '0',
-      created_at TEXT NOT NULL DEFAULT (datetime('now'))
-    );
+     CREATE TABLE IF NOT EXISTS users (
+       address TEXT PRIMARY KEY,
+       source TEXT NOT NULL DEFAULT '',
+       streak INTEGER NOT NULL DEFAULT 0,
+       last_checkin TEXT,
+       total_earned TEXT NOT NULL DEFAULT '0',
+       created_at TEXT NOT NULL DEFAULT (datetime('now'))
+     );
 
-    CREATE TABLE IF NOT EXISTS completed_tasks (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      user_address TEXT NOT NULL REFERENCES users(address),
-      task_id INTEGER NOT NULL REFERENCES tasks(id),
-      completed_at TEXT NOT NULL DEFAULT (datetime('now')),
-      UNIQUE(user_address, task_id, date(completed_at))
-    );
+     CREATE TABLE IF NOT EXISTS completed_tasks (
+       id INTEGER PRIMARY KEY AUTOINCREMENT,
+       user_address TEXT NOT NULL REFERENCES users(address),
+       task_id INTEGER NOT NULL REFERENCES tasks(id),
+       completed_at TEXT NOT NULL DEFAULT (datetime('now')),
+       completed_date TEXT NOT NULL DEFAULT (strftime('%Y-%m-%d', 'now')),
+       UNIQUE(user_address, task_id, completed_date)
+     );
 
-    CREATE TABLE IF NOT EXISTS claims (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      user_address TEXT NOT NULL REFERENCES users(address),
-      amount TEXT NOT NULL,
-      claim_id TEXT NOT NULL UNIQUE,
-      created_at TEXT NOT NULL DEFAULT (datetime('now'))
-    );
-  `);
+     CREATE TABLE IF NOT EXISTS claims (
+       id INTEGER PRIMARY KEY AUTOINCREMENT,
+       user_address TEXT NOT NULL REFERENCES users(address),
+       amount TEXT NOT NULL,
+       claim_id TEXT NOT NULL UNIQUE,
+       created_at TEXT NOT NULL DEFAULT (datetime('now'))
+     );
+   `);
 
   seedDefaults(db);
   return db;
@@ -86,7 +87,7 @@ function seedDefaults(db) {
     const ins = db.prepare("INSERT INTO source_bonuses (source, bonus, label) VALUES (?, ?, ?)");
     ins.run("discord", 1.1, "Discord");
     ins.run("telegram", 1.1, "Telegram");
-    ins.run("twitter", 1.05, "Twitter / X");
+    ins.run("discord", 1.1, "Discord");
     ins.run("forum", 1.15, "Forum");
     ins.run("friend", 1.2, "Referral");
   }
